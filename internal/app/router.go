@@ -4,6 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/khaingminhtun/production-go-api/internal/features/relationship"
+	"github.com/khaingminhtun/production-go-api/internal/shared/middleware"
 
 	"github.com/khaingminhtun/production-go-api/internal/features/auth"
 	"github.com/khaingminhtun/production-go-api/internal/features/user"
@@ -19,6 +21,7 @@ func NewRouter(deps *Dependencies) *gin.Engine {
 	// Global middleware.
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
+	router.Use(middleware.ErrorHandler())
 
 	// 405 Method Not Allowed.
 	router.NoMethod(func(c *gin.Context) {
@@ -52,5 +55,20 @@ func NewRouter(deps *Dependencies) *gin.Engine {
 		deps.AuthHandler,
 	)
 
+	// ============================================================
+	// Private routes
+	// ============================================================
+
+	authMiddleware := middleware.NewAuthMiddleware(
+		deps.JWTManager,
+	)
+
+	private := api.Group("")
+	private.Use(authMiddleware.RequireAuth())
+
+	relationship.RegisterRoutes(
+		private,
+		deps.RelationshipHandler,
+	)
 	return router
 }

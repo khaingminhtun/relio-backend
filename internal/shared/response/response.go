@@ -9,6 +9,7 @@ import (
 type Response struct {
 	Success bool        `json:"success"`
 	Data    interface{} `json:"data,omitempty"`
+	Message string      `json:"message,omitempty"`
 	Error   *ErrorInfo  `json:"error,omitempty"`
 	Meta    interface{} `json:"meta,omitempty"`
 }
@@ -46,7 +47,11 @@ func Accepted(c *gin.Context, data interface{}) {
 // NoContent sends a 204 No Content response.
 // Use this for successful DELETE or actions with no return value.
 func NoContent(c *gin.Context) {
-	c.Status(http.StatusNoContent)
+	c.JSON(http.StatusNoContent, Response{
+		Success: true,
+		Data:    nil,
+		Message: "No Content, soft delete successfully",
+	})
 }
 
 // BadRequest sends a 400 Bad Request response.

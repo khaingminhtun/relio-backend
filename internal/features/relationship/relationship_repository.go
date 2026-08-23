@@ -93,7 +93,15 @@ func (r *relationshipRepository) Delete(
 	ctx context.Context,
 	id int64,
 ) error {
-	return transaction.DB(ctx, r.db).
-		Delete(&Relationship{}, id).
-		Error
+	result := transaction.DB(ctx, r.db).
+		Delete(&Relationship{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+
+	return nil
 }

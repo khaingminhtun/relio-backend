@@ -5,6 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
+	"github.com/khaingminhtun/production-go-api/internal/shared/middleware"
 )
 
 var ErrInvalidParameter = errors.New("invalid parameter")
@@ -35,4 +37,26 @@ func QueryInt(
 	}
 
 	return strconv.Atoi(value)
+}
+
+func UserID(c *gin.Context) (int64, error) {
+	value, exists := c.Get(middleware.UserIDKey)
+	if !exists {
+		return 0, apperror.New(
+			apperror.CodeUnauthorized,
+			"authenticated user not found",
+			nil,
+		)
+	}
+
+	userID, ok := value.(int64)
+	if !ok || userID <= 0 {
+		return 0, apperror.New(
+			apperror.CodeUnauthorized,
+			"invalid authenticated user",
+			nil,
+		)
+	}
+
+	return userID, nil
 }

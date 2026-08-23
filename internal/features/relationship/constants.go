@@ -9,6 +9,18 @@ const (
 	RelationshipTypeOther      RelationshipType = "other"
 )
 
+func (t RelationshipType) IsValid() bool {
+	switch t {
+	case RelationshipTypeFamily,
+		RelationshipTypeFriendship,
+		RelationshipTypeCouple,
+		RelationshipTypeOther:
+		return true
+	default:
+		return false
+	}
+}
+
 type RelationshipMemberRole string
 
 const (
