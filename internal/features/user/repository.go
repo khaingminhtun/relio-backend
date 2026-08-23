@@ -12,12 +12,12 @@ import (
 
 type Repository interface {
 	Create(ctx context.Context, user *User) error
-	GetByID(ctx context.Context, id uint) (*User, error)
+	GetByID(ctx context.Context, id int64) (*User, error)
 	GetByEmail(ctx context.Context, email string) (*User, error)
 	GetByUsername(ctx context.Context, username string) (*User, error)
 	List(ctx context.Context, offset, limit int) ([]User, int64, error)
 	Update(ctx context.Context, user *User) error
-	Delete(ctx context.Context, id uint) error
+	Delete(ctx context.Context, id int64) error
 }
 
 type repository struct {
@@ -53,7 +53,7 @@ func (r *repository) Create(ctx context.Context, user *User) error {
 // Get Methods (Transform RecordNotFound to Domain Errors)
 // ============================================================
 
-func (r *repository) GetByID(ctx context.Context, id uint) (*User, error) {
+func (r *repository) GetByID(ctx context.Context, id int64) (*User, error) {
 	var user User
 
 	if err := r.db.WithContext(ctx).First(&user, id).Error; err != nil {
@@ -149,7 +149,7 @@ func (r *repository) Update(ctx context.Context, user *User) error {
 	return nil
 }
 
-func (r *repository) Delete(ctx context.Context, id uint) error {
+func (r *repository) Delete(ctx context.Context, id int64) error {
 	res := r.db.WithContext(ctx).Delete(&User{}, id)
 	if res.Error != nil {
 		return fmt.Errorf("delete user %d: %w", id, res.Error)

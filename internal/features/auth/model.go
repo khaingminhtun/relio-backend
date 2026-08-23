@@ -2,15 +2,13 @@ package auth
 
 import (
 	"time"
-
-	dbutils "github.com/khaingminhtun/production-go-api/internal/shared/dbutils"
 )
 
 // AuthSession has no soft delete → embed BaseModel.
 type AuthSession struct {
-	dbutils.BaseModel
+	ID int64 `gorm:"primaryKey;autoIncrement"`
 
-	UserID uint `gorm:"not null;index"`
+	UserID int64 `gorm:"not null;index"`
 
 	RefreshTokenHash string `gorm:"size:255;uniqueIndex;not null"`
 
@@ -19,11 +17,16 @@ type AuthSession struct {
 
 	ExpiresAt time.Time `gorm:"not null;index"`
 	RevokedAt *time.Time
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 // OAuthAccount has no soft delete → embed BaseModel.
 type OAuthAccount struct {
-	dbutils.BaseModel
+	ID        int64 `gorm:"primaryKey;autoIncrement"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 
 	UserID int64 `gorm:"not null;index"`
 

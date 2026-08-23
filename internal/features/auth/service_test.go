@@ -9,7 +9,6 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	dbutils "github.com/khaingminhtun/production-go-api/internal/shared/dbutils"
 	"github.com/khaingminhtun/production-go-api/internal/features/user"
 	redisinfra "github.com/khaingminhtun/production-go-api/internal/infrastructure/redis"
 	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
@@ -28,7 +27,7 @@ func (m *MockRegistrationUserRepository) Create(ctx context.Context, u *user.Use
 	return args.Error(0)
 }
 
-func (m *MockRegistrationUserRepository) GetByID(ctx context.Context, id uint) (*user.User, error) {
+func (m *MockRegistrationUserRepository) GetByID(ctx context.Context, id int64) (*user.User, error) {
 	args := m.Called(ctx, id)
 
 	var u *user.User
@@ -48,7 +47,7 @@ func (m *MockRegistrationUserRepository) Update(ctx context.Context, u *user.Use
 	return args.Error(0)
 }
 
-func (m *MockRegistrationUserRepository) Delete(ctx context.Context, id uint) error {
+func (m *MockRegistrationUserRepository) Delete(ctx context.Context, id int64) error {
 	args := m.Called(ctx, id)
 	return args.Error(0)
 }
@@ -101,7 +100,7 @@ func (m *MockAuthRepository) Update(ctx context.Context, session *AuthSession) e
 	return args.Error(0)
 }
 
-func (m *MockAuthRepository) GetByID(ctx context.Context, id uint) (*AuthSession, error) {
+func (m *MockAuthRepository) GetByID(ctx context.Context, id int64) (*AuthSession, error) {
 	args := m.Called(ctx, id)
 
 	var s *AuthSession
@@ -334,9 +333,7 @@ func TestService_Register_EmailAlreadyExists(t *testing.T) {
 	svc := newTestService(userRepo, authRepo, redisStore, emailQueue)
 
 	existingUser := &user.User{
-		SoftDeleteModel: dbutils.SoftDeleteModel{
-			BaseModel: dbutils.BaseModel{ID: 1},
-		},
+		ID:    1,
 		Email: "test@example.com",
 	}
 
@@ -423,9 +420,8 @@ func TestService_Register_UsernameAlreadyExists(t *testing.T) {
 		).
 		Return(
 			&user.User{
-				SoftDeleteModel: dbutils.SoftDeleteModel{
-					BaseModel: dbutils.BaseModel{ID: 1},
-				},
+
+				ID:       1,
 				Username: "john",
 			},
 			nil,

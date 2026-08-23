@@ -11,7 +11,7 @@ import (
 type Repository interface {
 	Create(ctx context.Context, session *AuthSession) error
 	Update(ctx context.Context, session *AuthSession) error
-	GetByID(ctx context.Context, id uint) (*AuthSession, error)
+	GetByID(ctx context.Context, id int64) (*AuthSession, error)
 	GetByRefreshTokenHash(ctx context.Context, hash string) (*AuthSession, error)
 }
 
@@ -47,7 +47,7 @@ func (r *repository) Update(
 
 func (r *repository) GetByID(
 	ctx context.Context,
-	id uint,
+	id int64,
 ) (*AuthSession, error) {
 
 	var session AuthSession

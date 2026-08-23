@@ -9,18 +9,18 @@ import (
 
 var ErrInvalidParameter = errors.New("invalid parameter")
 
-func ParamUint(
+func ParamInt64(
 	c *gin.Context,
 	name string,
-) (uint, error) {
+) (int64, error) {
 	value := c.Param(name)
 
-	id, err := strconv.ParseUint(value, 10, 64)
-	if err != nil || id == 0 {
+	id, err := strconv.ParseInt(value, 10, 64)
+	if err != nil || id <= 0 {
 		return 0, ErrInvalidParameter
 	}
 
-	return uint(id), nil
+	return id, nil
 }
 
 func QueryInt(

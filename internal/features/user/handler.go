@@ -56,7 +56,7 @@ func (h *Handler) CreateUser(c *gin.Context) {
 //
 // Returns a user by ID.
 func (h *Handler) GetUser(c *gin.Context) {
-	userID, err := httpx.ParamUint(c, "id")
+	userID, err := httpx.ParamInt64(c, "id")
 	if err != nil {
 		response.BadRequest(c, "invalid user id")
 		return
@@ -119,7 +119,7 @@ func (h *Handler) ListUsers(c *gin.Context) {
 //
 // Updates a user.
 func (h *Handler) UpdateUser(c *gin.Context) {
-	userID, err := httpx.ParamUint(c, "id")
+	userID, err := httpx.ParamInt64(c, "id")
 	if err != nil {
 		response.BadRequest(c, "invalid user id")
 		return
@@ -155,7 +155,7 @@ func (h *Handler) UpdateUser(c *gin.Context) {
 //
 // Deletes a user.
 func (h *Handler) DeleteUser(c *gin.Context) {
-	userID, err := httpx.ParamUint(c, "id")
+	userID, err := httpx.ParamInt64(c, "id")
 	if err != nil {
 		response.BadRequest(c, "invalid user id")
 		return

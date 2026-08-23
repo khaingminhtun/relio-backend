@@ -18,7 +18,7 @@ DB_URL := postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?
 
 TEST_DB_URL := postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(TEST_DB_NAME)?sslmode=disable
 
-MIGRATIONS := migrations
+MIGRATIONS := ./migrations
 
 
 # ============================================================

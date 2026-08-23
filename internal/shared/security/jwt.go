@@ -14,8 +14,8 @@ type JWTManager struct {
 }
 
 type Claims struct {
-	UserID    uint   `json:"user_id"`
-	SessionID uint   `json:"session_id,omitempty"`
+	UserID    int64  `json:"user_id"`
+	SessionID int64  `json:"session_id,omitempty"`
 	Role      string `json:"role,omitempty"`
 	TokenType string `json:"token_type"`
 
@@ -35,7 +35,7 @@ func NewJWTManager(
 }
 
 func (m *JWTManager) GenerateAccessToken(
-	userID uint,
+	userID int64,
 	role string,
 ) (string, error) {
 
@@ -63,8 +63,8 @@ func (m *JWTManager) GenerateAccessToken(
 }
 
 func (m *JWTManager) GenerateRefreshToken(
-	userID uint,
-	sessionID uint,
+	userID int64,
+	sessionID int64,
 ) (string, error) {
 
 	now := time.Now()

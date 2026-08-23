@@ -16,7 +16,7 @@ type Service interface {
 
 	GetUser(
 		ctx context.Context,
-		id uint,
+		id int64,
 	) (*UserResponse, error)
 
 	ListUsers(
@@ -26,13 +26,13 @@ type Service interface {
 
 	UpdateUser(
 		ctx context.Context,
-		id uint,
+		id int64,
 		req UpdateUserRequest,
 	) (*UserResponse, error)
 
 	DeleteUser(
 		ctx context.Context,
-		id uint,
+		id int64,
 	) error
 }
 
@@ -83,7 +83,7 @@ func (s *service) CreateUser(
 
 func (s *service) GetUser(
 	ctx context.Context,
-	id uint,
+	id int64,
 ) (*UserResponse, error) {
 
 	user, err := s.repo.GetByID(ctx, id)
@@ -134,7 +134,7 @@ func (s *service) ListUsers(
 
 func (s *service) UpdateUser(
 	ctx context.Context,
-	id uint,
+	id int64,
 	req UpdateUserRequest,
 ) (*UserResponse, error) {
 
@@ -165,7 +165,7 @@ func (s *service) UpdateUser(
 
 func (s *service) DeleteUser(
 	ctx context.Context,
-	id uint,
+	id int64,
 ) error {
 
 	// Confirms target existence first

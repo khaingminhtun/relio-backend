@@ -8,7 +8,6 @@ import (
 	"github.com/khaingminhtun/production-go-api/internal/features/auth"
 	"github.com/khaingminhtun/production-go-api/internal/features/user"
 	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/httperror"
-	"github.com/khaingminhtun/production-go-api/internal/shared/middleware"
 )
 
 func NewRouter(deps *Dependencies) *gin.Engine {
@@ -20,7 +19,6 @@ func NewRouter(deps *Dependencies) *gin.Engine {
 	// Global middleware.
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	router.Use(middleware.ErrorHandler())
 
 	// 405 Method Not Allowed.
 	router.NoMethod(func(c *gin.Context) {

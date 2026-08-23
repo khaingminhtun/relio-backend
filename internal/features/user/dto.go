@@ -17,7 +17,7 @@ type UpdateUserRequest struct {
 
 // UserResponse is the public representation of a user.
 type UserResponse struct {
-	ID            uint       `json:"id"`
+	ID            int64      `json:"id"`
 	Username      string     `json:"username"`
 	Email         string     `json:"email"`
 	Role          Role       `json:"role"`
