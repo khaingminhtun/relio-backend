@@ -3,8 +3,8 @@ package user
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/khaingminhtun/production-go-api/internal/shared/httpx"
-	"github.com/khaingminhtun/production-go-api/internal/shared/response"
+	"github.com/khaingminhtun/relio-backend/internal/shared/httpx"
+	"github.com/khaingminhtun/relio-backend/internal/shared/response"
 )
 
 type Handler struct {

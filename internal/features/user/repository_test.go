@@ -8,7 +8,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
 )
 
 const testDatabaseURL = "host=localhost port=5433 user=production password=production dbname=production_api_test sslmode=disable"

@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
-	"github.com/khaingminhtun/production-go-api/internal/shared/middleware"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
+	"github.com/khaingminhtun/relio-backend/internal/shared/middleware"
 )
 
 var ErrInvalidParameter = errors.New("invalid parameter")

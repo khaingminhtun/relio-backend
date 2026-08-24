@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
 )
 
 type Error struct {

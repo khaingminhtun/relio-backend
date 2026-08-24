@@ -5,8 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
-	"github.com/khaingminhtun/production-go-api/internal/shared/security"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
+	"github.com/khaingminhtun/relio-backend/internal/shared/security"
 )
 
 const (

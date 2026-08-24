@@ -4,19 +4,24 @@ import "github.com/gin-gonic/gin"
 
 func RegisterRoutes(
 	router *gin.RouterGroup,
-	handler *Handler,
+	relationshipHandler *RelationshipHandler,
+	relationshipMemberHandler *RelationshipMemberHandler,
 ) {
+	relationships := router.Group("/relationships")
 
-	relationship := router.Group("/relationship")
+	// Relationship CRUD
+	relationships.POST("/", relationshipHandler.CreateRelationship)
+	relationships.GET("/", relationshipHandler.List)
+	relationships.GET("/:relationshipId", relationshipHandler.GetByID)
+	relationships.PATCH("/:relationshipId", relationshipHandler.Update)
+	relationships.DELETE("/:relationshipId", relationshipHandler.Delete)
 
-	relationship.POST("/", handler.CreateRelationship)
+	// Relationship Members
+	members := relationships.Group("/:relationshipId/members")
 
-	relationship.GET("/", handler.List)
-
-	relationship.GET("/:relationshipId", handler.GetByID)
-
-	relationship.PATCH("/:relationshipId", handler.Update)
-
-	relationship.DELETE("/:relationshipId", handler.Delete)
-
+	members.GET("/", relationshipMemberHandler.List)
+	members.GET("/me", relationshipMemberHandler.GetMe)
+	members.GET("/:memberId", relationshipMemberHandler.GetByID)
+	members.PATCH("/:memberId", relationshipMemberHandler.UpdateMember)
+	members.DELETE("/:memberId", relationshipMemberHandler.RemoveMember)
 }

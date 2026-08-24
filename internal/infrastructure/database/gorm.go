@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/khaingminhtun/production-go-api/internal/config"
+	"github.com/khaingminhtun/relio-backend/internal/config"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

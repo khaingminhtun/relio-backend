@@ -1,4 +1,4 @@
-APP_NAME := production-go-api
+APP_NAME := relio-backend
 
 # ============================================================
 # Database

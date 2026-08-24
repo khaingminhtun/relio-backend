@@ -8,13 +8,13 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/khaingminhtun/production-go-api/internal/app"
-	"github.com/khaingminhtun/production-go-api/internal/config"
-	"github.com/khaingminhtun/production-go-api/internal/infrastructure/database"
-	redisinfra "github.com/khaingminhtun/production-go-api/internal/infrastructure/redis"
-	"github.com/khaingminhtun/production-go-api/internal/shared/email"
-	"github.com/khaingminhtun/production-go-api/internal/shared/logger"
-	"github.com/khaingminhtun/production-go-api/internal/shared/security"
+	"github.com/khaingminhtun/relio-backend/internal/app"
+	"github.com/khaingminhtun/relio-backend/internal/config"
+	"github.com/khaingminhtun/relio-backend/internal/infrastructure/database"
+	redisinfra "github.com/khaingminhtun/relio-backend/internal/infrastructure/redis"
+	"github.com/khaingminhtun/relio-backend/internal/shared/email"
+	"github.com/khaingminhtun/relio-backend/internal/shared/logger"
+	"github.com/khaingminhtun/relio-backend/internal/shared/security"
 
 	"github.com/rs/zerolog/log"
 )

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"html/template"
 
-	"github.com/khaingminhtun/production-go-api/internal/infrastructure/redis"
+	"github.com/khaingminhtun/relio-backend/internal/infrastructure/redis"
 )
 
 func renderTemplate(

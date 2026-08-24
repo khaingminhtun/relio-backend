@@ -2,20 +2,20 @@ package relationship
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
-	"github.com/khaingminhtun/production-go-api/internal/shared/httpx"
-	"github.com/khaingminhtun/production-go-api/internal/shared/response"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
+	"github.com/khaingminhtun/relio-backend/internal/shared/httpx"
+	"github.com/khaingminhtun/relio-backend/internal/shared/response"
 )
 
-type Handler struct {
-	service Service
+type RelationshipHandler struct {
+	service RelationshipService
 }
 
-func NewHandler(service Service) *Handler {
-	return &Handler{service: service}
+func NewHandler(service RelationshipService) *RelationshipHandler {
+	return &RelationshipHandler{service: service}
 }
 
-func (h *Handler) CreateRelationship(c *gin.Context) {
+func (h *RelationshipHandler) CreateRelationship(c *gin.Context) {
 	var req CreateRelationshipRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -46,7 +46,7 @@ func (h *Handler) CreateRelationship(c *gin.Context) {
 	response.Created(c, result)
 }
 
-func (h *Handler) List(c *gin.Context) {
+func (h *RelationshipHandler) List(c *gin.Context) {
 	userID, err := httpx.UserID(c)
 	if err != nil {
 		c.Error(err)
@@ -65,7 +65,7 @@ func (h *Handler) List(c *gin.Context) {
 	response.OK(c, relationships)
 }
 
-func (h *Handler) GetByID(c *gin.Context) {
+func (h *RelationshipHandler) GetByID(c *gin.Context) {
 	relationshipID, err := httpx.ParamInt64(c, "relationshipId")
 	if err != nil {
 		c.Error(err)
@@ -84,7 +84,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 	response.OK(c, result)
 }
 
-func (h *Handler) Update(c *gin.Context) {
+func (h *RelationshipHandler) Update(c *gin.Context) {
 	var req UpdateRelationshipRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -115,7 +115,7 @@ func (h *Handler) Update(c *gin.Context) {
 	response.OK(c, result)
 }
 
-func (h *Handler) Delete(c *gin.Context) {
+func (h *RelationshipHandler) Delete(c *gin.Context) {
 	relationshipID, err := httpx.ParamInt64(c, "relationshipId")
 	if err != nil {
 		c.Error(err)

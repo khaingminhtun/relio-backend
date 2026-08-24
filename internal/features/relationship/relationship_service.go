@@ -7,12 +7,12 @@ import (
 	"strings"
 	"time"
 
-	transaction "github.com/khaingminhtun/production-go-api/internal/shared/dbutils"
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
+	transaction "github.com/khaingminhtun/relio-backend/internal/shared/dbutils"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
 	"gorm.io/gorm"
 )
 
-type Service interface {
+type RelationshipService interface {
 	Create(
 		ctx context.Context,
 		userID int64,
@@ -36,21 +36,21 @@ type Service interface {
 		id int64) error
 }
 
-type service struct {
+type relationshipService struct {
 	relationshipRepo RelationshipRepository
 	memberRepo       RelationshipMemberRepository
 	txManager        transaction.Manager
 }
 
-func NewService(relationshipRepo RelationshipRepository, memberRepo RelationshipMemberRepository, txManager transaction.Manager) Service {
-	return &service{
+func NewRelationshipService(relationshipRepo RelationshipRepository, memberRepo RelationshipMemberRepository, txManager transaction.Manager) RelationshipService {
+	return &relationshipService{
 		relationshipRepo: relationshipRepo,
 		memberRepo:       memberRepo,
 		txManager:        txManager,
 	}
 }
 
-func (s service) Create(ctx context.Context, userID int64, req CreateRelationshipRequest) (*RelationshipResponse, error) {
+func (s relationshipService) Create(ctx context.Context, userID int64, req CreateRelationshipRequest) (*RelationshipResponse, error) {
 
 	name := strings.TrimSpace(req.Name)
 	timezone := strings.TrimSpace(req.Timezone)
@@ -178,7 +178,7 @@ func (s service) Create(ctx context.Context, userID int64, req CreateRelationshi
 
 }
 
-func (s service) List(ctx context.Context, userID int64) ([]RelationshipResponse, error) {
+func (s relationshipService) List(ctx context.Context, userID int64) ([]RelationshipResponse, error) {
 	relationships, err := s.relationshipRepo.ListByUserID(ctx, userID)
 	if err != nil {
 		return nil, apperror.New(
@@ -208,7 +208,7 @@ func (s service) List(ctx context.Context, userID int64) ([]RelationshipResponse
 	return responses, nil
 }
 
-func (s *service) GetByID(
+func (s *relationshipService) GetByID(
 	ctx context.Context,
 	id int64,
 ) (*RelationshipResponse, error) {
@@ -239,7 +239,7 @@ func (s *service) GetByID(
 	}, nil
 }
 
-func (s *service) Update(
+func (s *relationshipService) Update(
 	ctx context.Context,
 	id int64,
 	req UpdateRelationshipRequest,
@@ -299,7 +299,7 @@ func (s *service) Update(
 	}, nil
 }
 
-func (s *service) Delete(
+func (s *relationshipService) Delete(
 	ctx context.Context,
 	id int64,
 ) error {

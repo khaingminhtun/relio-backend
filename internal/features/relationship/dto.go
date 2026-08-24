@@ -32,3 +32,20 @@ type UpdateRelationshipRequest struct {
 	StartDate   *time.Time        `json:"start_date"`
 	Timezone    *string           `json:"timezone"`
 }
+
+// relationship member
+type RelationshipMemberResponse struct {
+	ID             int64                    `json:"id"`
+	RelationshipID int64                    `json:"relationship_id"`
+	UserID         int64                    `json:"user_id"`
+	Role           RelationshipMemberRole   `json:"role"`
+	Status         RelationshipMemberStatus `json:"status"`
+	JoinedAt       *time.Time               `json:"joined_at,omitempty"`
+	CreatedAt      time.Time                `json:"created_at"`
+	UpdatedAt      time.Time                `json:"updated_at"`
+}
+
+type UpdateMemberRequest struct {
+	Role   *RelationshipMemberRole   `json:"role"`
+	Status *RelationshipMemberStatus `json:"status"`
+}

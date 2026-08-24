@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	postgres "github.com/khaingminhtun/production-go-api/internal/shared/dbutils"
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
+	postgres "github.com/khaingminhtun/relio-backend/internal/shared/dbutils"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
 	"gorm.io/gorm"
 )
 

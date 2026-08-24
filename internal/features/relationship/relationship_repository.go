@@ -4,10 +4,37 @@ import (
 	"context"
 	"errors"
 
-	transaction "github.com/khaingminhtun/production-go-api/internal/shared/dbutils"
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
+	transaction "github.com/khaingminhtun/relio-backend/internal/shared/dbutils"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
 	"gorm.io/gorm"
 )
+
+type RelationshipRepository interface {
+	Create(
+		ctx context.Context,
+		relationship *Relationship,
+	) error
+
+	GetByID(
+		ctx context.Context,
+		id int64,
+	) (*Relationship, error)
+
+	ListByUserID(
+		ctx context.Context,
+		userID int64,
+	) ([]Relationship, error)
+
+	Update(
+		ctx context.Context,
+		relationship *Relationship,
+	) error
+
+	Delete(
+		ctx context.Context,
+		id int64,
+	) error
+}
 
 type relationshipRepository struct {
 	db *gorm.DB

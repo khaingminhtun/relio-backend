@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/httperror"
-	"github.com/khaingminhtun/production-go-api/internal/shared/response"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/httperror"
+	"github.com/khaingminhtun/relio-backend/internal/shared/response"
 )
 
 func ErrorHandler() gin.HandlerFunc {

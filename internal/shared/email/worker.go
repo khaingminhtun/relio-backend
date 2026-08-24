@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/khaingminhtun/production-go-api/internal/infrastructure/redis"
+	"github.com/khaingminhtun/relio-backend/internal/infrastructure/redis"
 	"github.com/rs/zerolog/log"
 )
 

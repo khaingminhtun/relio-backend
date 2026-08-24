@@ -4,12 +4,12 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/khaingminhtun/production-go-api/internal/features/relationship"
-	"github.com/khaingminhtun/production-go-api/internal/shared/middleware"
+	"github.com/khaingminhtun/relio-backend/internal/features/relationship"
+	"github.com/khaingminhtun/relio-backend/internal/shared/middleware"
 
-	"github.com/khaingminhtun/production-go-api/internal/features/auth"
-	"github.com/khaingminhtun/production-go-api/internal/features/user"
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/httperror"
+	"github.com/khaingminhtun/relio-backend/internal/features/auth"
+	"github.com/khaingminhtun/relio-backend/internal/features/user"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/httperror"
 )
 
 func NewRouter(deps *Dependencies) *gin.Engine {
@@ -69,6 +69,7 @@ func NewRouter(deps *Dependencies) *gin.Engine {
 	relationship.RegisterRoutes(
 		private,
 		deps.RelationshipHandler,
+		deps.RelatonshipMemberHandler,
 	)
 	return router
 }

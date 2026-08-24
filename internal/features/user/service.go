@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/khaingminhtun/production-go-api/internal/shared/security"
+	"github.com/khaingminhtun/relio-backend/internal/shared/security"
 )
 
 type Service interface {

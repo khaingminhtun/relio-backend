@@ -4,10 +4,48 @@ import (
 	"context"
 	"errors"
 
-	transaction "github.com/khaingminhtun/production-go-api/internal/shared/dbutils"
-	"github.com/khaingminhtun/production-go-api/internal/shared/errorhandler/apperror"
+	transaction "github.com/khaingminhtun/relio-backend/internal/shared/dbutils"
+	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
 	"gorm.io/gorm"
 )
+
+type InvitationRepository interface {
+	Create(
+		ctx context.Context,
+		invitation *Invitation,
+	) error
+
+	GetByID(
+		ctx context.Context,
+		id int64,
+	) (*Invitation, error)
+
+	GetByTokenHash(
+		ctx context.Context,
+		tokenHash string,
+	) (*Invitation, error)
+
+	ListByRelationshipID(
+		ctx context.Context,
+		relationshipID int64,
+	) ([]Invitation, error)
+
+	FindPendingByEmail(
+		ctx context.Context,
+		relationshipID int64,
+		email string,
+	) (*Invitation, error)
+
+	Update(
+		ctx context.Context,
+		invitation *Invitation,
+	) error
+
+	Delete(
+		ctx context.Context,
+		id int64,
+	) error
+}
 
 type invitationRepository struct {
 	db *gorm.DB

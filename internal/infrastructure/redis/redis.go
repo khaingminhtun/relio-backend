@@ -6,7 +6,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"github.com/khaingminhtun/production-go-api/internal/config"
+	"github.com/khaingminhtun/relio-backend/internal/config"
 )
 
 func NewClient(cfg config.RedisConfig) *redis.Client {
