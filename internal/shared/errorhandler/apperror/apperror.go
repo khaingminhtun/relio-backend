@@ -27,6 +27,8 @@ const (
 	CodeCustomRelationshipTypeRequired Code = "CUSTOM_RELATIONSHIP_TYPE_REQUIRED"
 	CodeUnauthorized                   Code = "UNAUTHORIZED"
 	CodeInvalidAccessToken             Code = "INVALID_ACCESS_TOKEN"
+	CodeInvalidRelationshipMember      Code = "INVALId_RELATIONSHIP_MEMBER"
+	CodeUserProfileNotFound            Code = "USER_PROFILE_NOT_FOUND"
 )
 
 type Error struct {

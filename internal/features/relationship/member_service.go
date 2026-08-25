@@ -10,11 +10,13 @@ type RelationshipMemberService interface {
 	ListByRelationshipID(
 		ctx context.Context,
 		relationshipID int64,
+		userID int64,
 	) ([]RelationshipMemberResponse, error)
 
 	GetByID(
 		ctx context.Context,
-		id int64,
+		relationshipID int64,
+		memberID int64,
 	) (*RelationshipMemberResponse, error)
 
 	GetByRelationshipAndUser(
@@ -25,6 +27,7 @@ type RelationshipMemberService interface {
 
 	UpdateMember(
 		ctx context.Context,
+		relationshipID int64,
 		memberID int64,
 		req UpdateMemberRequest,
 	) (*RelationshipMemberResponse, error)
@@ -51,13 +54,29 @@ func NewRelationshipMemberService(
 func (s relationshipMemberService) ListByRelationshipID(
 	ctx context.Context,
 	relationshipID int64,
+	userID int64,
 ) ([]RelationshipMemberResponse, error) {
+
+	// Make sure requester belongs to this relationship.
+	_, err := s.memberRepo.GetByRelationshipAndUser(
+		ctx,
+		relationshipID,
+		userID,
+	)
+	if err != nil {
+		return nil, apperror.New(
+			apperror.CodeInvalidRelationshipMember,
+			"user is not this relationship member",
+			nil,
+		)
+	}
 
 	members, err := s.memberRepo.ListByRelationshipID(
 		ctx,
 		relationshipID,
 	)
 	if err != nil {
+
 		return nil, apperror.New(
 			apperror.CodeRelationshipMemberNotFound,
 			"relationship members not found",
@@ -80,9 +99,10 @@ func (s relationshipMemberService) ListByRelationshipID(
 
 func (s relationshipMemberService) GetByID(
 	ctx context.Context,
-	id int64,
+	relationshipID int64,
+	memberID int64,
 ) (*RelationshipMemberResponse, error) {
-	member, err := s.memberRepo.GetByID(ctx, id)
+	member, err := s.memberRepo.GetByID(ctx, relationshipID, memberID)
 	if err != nil {
 		return nil, apperror.New(
 			apperror.CodeRelationshipMemberNotFound,
@@ -117,10 +137,11 @@ func (s relationshipMemberService) GetByRelationshipAndUser(
 
 func (s relationshipMemberService) UpdateMember(
 	ctx context.Context,
+	relationshipID int64,
 	memberID int64,
 	req UpdateMemberRequest,
 ) (*RelationshipMemberResponse, error) {
-	member, err := s.memberRepo.GetByID(ctx, memberID)
+	member, err := s.memberRepo.GetByID(ctx, relationshipID, memberID)
 	if err != nil {
 		return nil, apperror.New(
 			apperror.CodeRelationshipMemberNotFound,

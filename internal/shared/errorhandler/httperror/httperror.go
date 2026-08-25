@@ -84,6 +84,8 @@ var codeToStatus = map[apperror.Code]int{
 	apperror.CodeCustomRelationshipTypeRequired: http.StatusNotFound,
 	apperror.CodeUnauthorized:                   http.StatusUnauthorized,
 	apperror.CodeInvalidAccessToken:             http.StatusUnauthorized,
+	apperror.CodeInvalidRelationshipMember:      http.StatusNotFound,
+	apperror.CodeUserProfileNotFound:            http.StatusNotFound,
 }
 
 func fromAppError(err *apperror.Error) *Error {

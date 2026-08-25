@@ -65,3 +65,43 @@ func toUserResponseList(users []User) []UserResponse {
 
 	return result
 }
+
+// user profile
+type UserProfileResponse struct {
+	ID            int64      `json:"id"`
+	UserID        int64      `json:"user_id"`
+	DisplayName   string     `json:"display_name"`
+	Bio           *string    `json:"bio,omitempty"`
+	DateOfBirth   *time.Time `json:"date_of_birth,omitempty"`
+	AvatarURL     *string    `json:"avatar_url,omitempty"`
+	CoverImageURL *string    `json:"cover_image_url,omitempty"`
+	Timezone      string     `json:"timezone"`
+	CreatedAt     time.Time  `json:"created_at"`
+	UpdatedAt     time.Time  `json:"updated_at"`
+}
+
+type UpdateUserProfileRequest struct {
+	DisplayName *string    `json:"display_name"`
+	Bio         *string    `json:"bio"`
+	DateOfBirth *time.Time `json:"date_of_birth"`
+	Timezone    *string    `json:"timezone"`
+}
+
+// model to dto
+func toUserProfileResponse(
+	profile *UserProfile,
+) *UserProfileResponse {
+
+	return &UserProfileResponse{
+		ID:            profile.ID,
+		UserID:        profile.UserID,
+		DisplayName:   profile.DisplayName,
+		Bio:           profile.Bio,
+		DateOfBirth:   profile.DateOfBirth,
+		AvatarURL:     profile.AvatarURL,
+		CoverImageURL: profile.CoverImageURL,
+		Timezone:      profile.Timezone,
+		CreatedAt:     profile.CreatedAt,
+		UpdatedAt:     profile.UpdatedAt,
+	}
+}

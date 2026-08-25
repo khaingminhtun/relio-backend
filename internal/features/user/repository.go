@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	postgres "github.com/khaingminhtun/relio-backend/internal/shared/dbutils"
+	transaction "github.com/khaingminhtun/relio-backend/internal/shared/dbutils"
 	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
 	"gorm.io/gorm"
 )
@@ -18,6 +19,11 @@ type Repository interface {
 	List(ctx context.Context, offset, limit int) ([]User, int64, error)
 	Update(ctx context.Context, user *User) error
 	Delete(ctx context.Context, id int64) error
+	Search(
+		ctx context.Context,
+		query string,
+		limit int,
+	) ([]User, error)
 }
 
 type repository struct {
@@ -166,4 +172,25 @@ func (r *repository) Delete(ctx context.Context, id int64) error {
 	}
 
 	return nil
+}
+
+func (r *repository) Search(
+	ctx context.Context,
+	query string,
+	limit int,
+) ([]User, error) {
+	var users []User
+
+	err := transaction.DB(ctx, r.db).
+		Where("username ILIKE ?", query+"%").
+		Order("username ASC").
+		Limit(limit).
+		Find(&users).
+		Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
 }

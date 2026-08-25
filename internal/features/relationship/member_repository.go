@@ -17,7 +17,8 @@ type RelationshipMemberRepository interface {
 
 	GetByID(
 		ctx context.Context,
-		id int64,
+		relationshipID int64,
+		memberID int64,
 	) (*RelationshipMember, error)
 
 	GetByRelationshipAndUser(
@@ -72,12 +73,15 @@ func (r *relationshipMemberRepository) Create(
 
 func (r *relationshipMemberRepository) GetByID(
 	ctx context.Context,
-	id int64,
+	relationshipID int64,
+	memberID int64,
 ) (*RelationshipMember, error) {
 	var member RelationshipMember
 
 	err := transaction.DB(ctx, r.db).
-		First(&member, id).
+		Where("id = ?", memberID).
+		Where("relationship_id = ?", relationshipID).
+		First(&member).
 		Error
 
 	if err != nil {

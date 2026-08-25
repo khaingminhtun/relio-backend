@@ -32,9 +32,16 @@ func (h *RelationshipMemberHandler) List(c *gin.Context) {
 		return
 	}
 
+	userID, err := httpx.UserID(c)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
 	members, err := h.service.ListByRelationshipID(
 		c.Request.Context(),
 		relationshipID,
+		userID,
 	)
 	if err != nil {
 		c.Error(err)
@@ -46,6 +53,16 @@ func (h *RelationshipMemberHandler) List(c *gin.Context) {
 
 // GET /:relationshipId/members/:memberId
 func (h *RelationshipMemberHandler) GetByID(c *gin.Context) {
+
+	relationshipID, err := httpx.ParamInt64(c, "relationshipId")
+	if err != nil {
+		c.Error(apperror.New(
+			apperror.CodeInvalidRequest,
+			"invalid relationship id",
+			err,
+		))
+		return
+	}
 	memberID, err := httpx.ParamInt64(c, "memberId")
 	if err != nil {
 		c.Error(err)
@@ -54,6 +71,7 @@ func (h *RelationshipMemberHandler) GetByID(c *gin.Context) {
 
 	member, err := h.service.GetByID(
 		c.Request.Context(),
+		relationshipID,
 		memberID,
 	)
 	if err != nil {
@@ -101,6 +119,15 @@ func (h *RelationshipMemberHandler) GetMe(c *gin.Context) {
 
 // PATCH /members/:memberId
 func (h *RelationshipMemberHandler) UpdateMember(c *gin.Context) {
+	relationshipID, err := httpx.ParamInt64(c, "relationshipId")
+	if err != nil {
+		c.Error(apperror.New(
+			apperror.CodeInvalidRequest,
+			"invalid relationship id",
+			err,
+		))
+		return
+	}
 	var req UpdateMemberRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -124,6 +151,7 @@ func (h *RelationshipMemberHandler) UpdateMember(c *gin.Context) {
 
 	member, err := h.service.UpdateMember(
 		c.Request.Context(),
+		relationshipID,
 		memberID,
 		req,
 	)

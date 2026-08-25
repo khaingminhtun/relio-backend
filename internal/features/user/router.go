@@ -6,6 +6,7 @@ import "github.com/gin-gonic/gin"
 func RegisterRoutes(
 	router *gin.RouterGroup,
 	handler *Handler,
+	profileHandler *UserProfileHandler,
 ) {
 	users := router.Group("/users")
 	{
@@ -15,4 +16,8 @@ func RegisterRoutes(
 		users.PATCH("/:id", handler.UpdateUser)
 		users.DELETE("/:id", handler.DeleteUser)
 	}
+
+	profile := router.Group("/profile")
+	profile.GET("/", profileHandler.Get)
+	profile.PATCH("/", profileHandler.Update)
 }

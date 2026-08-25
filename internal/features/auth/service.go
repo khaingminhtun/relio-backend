@@ -11,6 +11,7 @@ import (
 
 	"github.com/khaingminhtun/relio-backend/internal/features/user"
 	redisinfra "github.com/khaingminhtun/relio-backend/internal/infrastructure/redis"
+	transaction "github.com/khaingminhtun/relio-backend/internal/shared/dbutils"
 	"github.com/khaingminhtun/relio-backend/internal/shared/errorhandler/apperror"
 	"github.com/khaingminhtun/relio-backend/internal/shared/security"
 )
@@ -38,26 +39,32 @@ type Service interface {
 }
 
 type service struct {
-	userRepo   user.Repository
-	authRepo   Repository
-	redisStore redisinfra.RedisStore
-	emailQueue redisinfra.EmailQueue
-	jwtManager *security.JWTManager
+	userRepo    user.Repository
+	profileRepo user.UserProfileRepository
+	authRepo    Repository
+	redisStore  redisinfra.RedisStore
+	emailQueue  redisinfra.EmailQueue
+	jwtManager  *security.JWTManager
+	txManger    transaction.Manager
 }
 
 func NewService(
 	userRepo user.Repository,
+	profileRepo user.UserProfileRepository,
 	authRepo Repository,
 	redisStore redisinfra.RedisStore,
 	emailQueue redisinfra.EmailQueue,
 	jwtManager *security.JWTManager,
+	txManager transaction.Manager,
 ) Service {
 	return &service{
-		userRepo:   userRepo,
-		authRepo:   authRepo,
-		redisStore: redisStore,
-		emailQueue: emailQueue,
-		jwtManager: jwtManager,
+		userRepo:    userRepo,
+		profileRepo: profileRepo,
+		authRepo:    authRepo,
+		redisStore:  redisStore,
+		emailQueue:  emailQueue,
+		jwtManager:  jwtManager,
+		txManger:    txManager,
 	}
 }
 
@@ -273,22 +280,60 @@ func (s *service) VerifyRegister(
 	}
 
 	// ============================================================
-	// Create User
+	// Create User and profile in one tranaction
 	// ============================================================
 
-	newUser := &user.User{
-		Username:      pending.Username,
-		Email:         pending.Email,
-		PasswordHash:  pending.PasswordHash,
-		Role:          user.RoleUser,
-		Status:        user.StatusActive,
-		EmailVerified: true,
-	}
-
-	if err := s.userRepo.Create(
+	err = s.txManger.WithinTransaction(
 		ctx,
-		newUser,
-	); err != nil {
+		func(txCtx context.Context) error {
+
+			newUser := &user.User{
+				Username:      pending.Username,
+				Email:         pending.Email,
+				PasswordHash:  pending.PasswordHash,
+				Role:          user.RoleUser,
+				Status:        user.StatusActive,
+				EmailVerified: true,
+			}
+
+			// --------------------------------------------------------
+			// Create User
+			// --------------------------------------------------------
+
+			if err := s.userRepo.Create(
+				txCtx,
+				newUser,
+			); err != nil {
+				return fmt.Errorf(
+					"create user: %w",
+					err,
+				)
+			}
+
+			// --------------------------------------------------------
+			// Create User Profile
+			// --------------------------------------------------------
+
+			profile := &user.UserProfile{
+				UserID:      newUser.ID,
+				DisplayName: newUser.Username,
+			}
+
+			if err := s.profileRepo.Create(
+				txCtx,
+				profile,
+			); err != nil {
+				return fmt.Errorf(
+					"create user profile: %w",
+					err,
+				)
+			}
+
+			return nil
+		},
+	)
+
+	if err != nil {
 		return nil, err
 	}
 

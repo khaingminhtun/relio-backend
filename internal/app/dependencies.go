@@ -12,6 +12,7 @@ import (
 
 type Dependencies struct {
 	UserHandler              *user.Handler
+	ProfileHandler           *user.UserProfileHandler
 	AuthHandler              *auth.Handler
 	RelationshipHandler      *relationship.RelationshipHandler
 	RelatonshipMemberHandler *relationship.RelationshipMemberHandler
@@ -31,13 +32,15 @@ func NewDependencies(db *gorm.DB,
 
 	//Repository
 	userRepository := user.NewRepository(db)
+	userProfileRepository := user.NewUserProfileRepository(db)
 	authRepository := auth.NewRepository(db)
 	relationshipRepository := relationship.NewRelationshipRepository(db)
 	memberRepository := relationship.NewRelationshipMemberRepository(db)
 
 	//Service
 	userService := user.NewService(userRepository)
-	authService := auth.NewService(userRepository, authRepository, redisStore, emailQueue, jwtManager)
+	userProfileService := user.NewUserProfileService(userProfileRepository)
+	authService := auth.NewService(userRepository, userProfileRepository, authRepository, redisStore, emailQueue, jwtManager, txManager)
 	relationshipService := relationship.NewRelationshipService(relationshipRepository, memberRepository, txManager)
 	relationshipMemberService := relationship.NewRelationshipMemberService(
 		memberRepository,
@@ -45,6 +48,7 @@ func NewDependencies(db *gorm.DB,
 
 	//Handler
 	userHandler := user.NewHandler(userService)
+	userProfileHandler := user.NewUserProfileHandler(userProfileService)
 	authHandler := auth.NewHandler(authService)
 	relationshipHandler := relationship.NewHandler(relationshipService)
 	relationshipMemberHandler := relationship.NewRelationshipMemberHandler(
@@ -53,6 +57,7 @@ func NewDependencies(db *gorm.DB,
 
 	return &Dependencies{
 		UserHandler:              userHandler,
+		ProfileHandler:           userProfileHandler,
 		AuthHandler:              authHandler,
 		RelationshipHandler:      relationshipHandler,
 		RelatonshipMemberHandler: relationshipMemberHandler,

@@ -22,6 +22,11 @@ type MockRegistrationUserRepository struct {
 	mock.Mock
 }
 
+// Search implements [user.Repository].
+func (m *MockRegistrationUserRepository) Search(ctx context.Context, query string, limit int) ([]user.User, error) {
+	panic("unimplemented")
+}
+
 func (m *MockRegistrationUserRepository) Create(ctx context.Context, u *user.User) error {
 	args := m.Called(ctx, u)
 	return args.Error(0)
@@ -207,11 +212,13 @@ func userNotFoundError() error {
 // the Register flow (which does not use those dependencies).
 func newTestService(
 	userRepo user.Repository,
+	userProfileRepo user.UserProfileRepository,
 	authRepo Repository,
 	redisStore redisinfra.RedisStore,
 	emailQueue redisinfra.EmailQueue,
+
 ) Service {
-	return NewService(userRepo, authRepo, redisStore, emailQueue, nil)
+	return NewService(userRepo, userProfileRepo, authRepo, redisStore, emailQueue, nil)
 }
 
 // ============================================================
