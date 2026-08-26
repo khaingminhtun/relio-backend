@@ -11,6 +11,7 @@ func RegisterRoutes(
 	users := router.Group("/users")
 	{
 		users.POST("", handler.CreateUser)
+		users.GET("/search", handler.SearchUsers)
 		users.GET("", handler.ListUsers)
 		users.GET("/:id", handler.GetUser)
 		users.PATCH("/:id", handler.UpdateUser)

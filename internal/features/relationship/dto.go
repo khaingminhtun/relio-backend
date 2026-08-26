@@ -49,3 +49,15 @@ type UpdateMemberRequest struct {
 	Role   *RelationshipMemberRole   `json:"role"`
 	Status *RelationshipMemberStatus `json:"status"`
 }
+
+type ExternalInvitationRequest struct {
+	Email string `json:"email" binding:"required,email"`
+}
+
+type ExternalInvitationResponse struct {
+	ID             int64     `json:"id"`
+	RelationshipID int64     `json:"relationship_id"`
+	Status         string    `json:"status"`
+	InviteURL      string    `json:"invite_url"`
+	ExpiresAt      time.Time `json:"expires_at"`
+}

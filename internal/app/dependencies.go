@@ -16,6 +16,7 @@ type Dependencies struct {
 	AuthHandler              *auth.Handler
 	RelationshipHandler      *relationship.RelationshipHandler
 	RelatonshipMemberHandler *relationship.RelationshipMemberHandler
+	InvitationHandler        *relationship.InvitationHandler
 
 	JWTManager *security.JWTManager
 }
@@ -23,7 +24,7 @@ type Dependencies struct {
 func NewDependencies(db *gorm.DB,
 	redisStore redisinfra.RedisStore,
 	emailQueue redisinfra.EmailQueue,
-
+	appBaseURL string,
 	jwtManager *security.JWTManager,
 ) *Dependencies {
 
@@ -36,6 +37,7 @@ func NewDependencies(db *gorm.DB,
 	authRepository := auth.NewRepository(db)
 	relationshipRepository := relationship.NewRelationshipRepository(db)
 	memberRepository := relationship.NewRelationshipMemberRepository(db)
+	invitationRepository := relationship.NewInvitationRepository(db)
 
 	//Service
 	userService := user.NewService(userRepository)
@@ -45,6 +47,7 @@ func NewDependencies(db *gorm.DB,
 	relationshipMemberService := relationship.NewRelationshipMemberService(
 		memberRepository,
 	)
+	invitationservice := relationship.NewInvitationService(invitationRepository, emailQueue, appBaseURL)
 
 	//Handler
 	userHandler := user.NewHandler(userService)
@@ -54,6 +57,7 @@ func NewDependencies(db *gorm.DB,
 	relationshipMemberHandler := relationship.NewRelationshipMemberHandler(
 		relationshipMemberService,
 	)
+	invitationHandler := relationship.NewInvitationHandler(invitationservice)
 
 	return &Dependencies{
 		UserHandler:              userHandler,
@@ -61,7 +65,7 @@ func NewDependencies(db *gorm.DB,
 		AuthHandler:              authHandler,
 		RelationshipHandler:      relationshipHandler,
 		RelatonshipMemberHandler: relationshipMemberHandler,
-
-		JWTManager: jwtManager,
+		InvitationHandler:        invitationHandler,
+		JWTManager:               jwtManager,
 	}
 }

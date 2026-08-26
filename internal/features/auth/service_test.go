@@ -208,17 +208,14 @@ func userNotFoundError() error {
 }
 
 // newTestService builds a service wired with the given mocks.
-// authRepo and jwtManager can be nil for tests that only exercise
-// the Register flow (which does not use those dependencies).
+// profileRepo and txManager are not exercised by these tests and are passed as nil.
 func newTestService(
 	userRepo user.Repository,
-	userProfileRepo user.UserProfileRepository,
 	authRepo Repository,
 	redisStore redisinfra.RedisStore,
 	emailQueue redisinfra.EmailQueue,
-
 ) Service {
-	return NewService(userRepo, userProfileRepo, authRepo, redisStore, emailQueue, nil)
+	return NewService(userRepo, nil, authRepo, redisStore, emailQueue, nil, nil)
 }
 
 // ============================================================

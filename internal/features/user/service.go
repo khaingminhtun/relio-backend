@@ -23,6 +23,11 @@ type Service interface {
 		ctx context.Context,
 		offset, limit int,
 	) (*UserListResponse, error)
+	SearchUsers(
+		ctx context.Context,
+		query string,
+		limit int,
+	) ([]UserResponse, error)
 
 	UpdateUser(
 		ctx context.Context,
@@ -174,4 +179,36 @@ func (s *service) DeleteUser(
 	}
 
 	return s.repo.Delete(ctx, id)
+}
+
+// ============================================================
+// Search
+// ============================================================
+
+func (s *service) SearchUsers(
+	ctx context.Context,
+	query string,
+	limit int,
+) ([]UserResponse, error) {
+
+	query = strings.TrimSpace(query)
+
+	if query == "" {
+		return []UserResponse{}, nil
+	}
+
+	if limit <= 0 {
+		limit = 20
+	}
+
+	if limit > 50 {
+		limit = 50
+	}
+
+	users, err := s.repo.Search(ctx, query, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	return toUserResponseList(users), nil
 }

@@ -27,7 +27,7 @@ func main() {
 
 	cfg := config.Load()
 
-	logger.Init(cfg.Loglevel)
+	logger.Init(cfg.App.LogLevel)
 
 	// ============================================================
 	// Database
@@ -117,7 +117,7 @@ func main() {
 		db,
 		redisStore,
 		emailQueue,
-
+		cfg.App.BaseURL,
 		jwtManager,
 	)
 
@@ -132,14 +132,14 @@ func main() {
 	// ============================================================
 
 	server := &http.Server{
-		Addr:    cfg.ServerPort,
+		Addr:    cfg.App.ServerPort,
 		Handler: r,
 	}
 
 	go func() {
 
 		log.Info().
-			Str("addr", cfg.ServerPort).
+			Str("addr", cfg.App.ServerPort).
 			Msg("server started")
 
 		if err := server.ListenAndServe(); err != nil &&

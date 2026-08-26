@@ -6,6 +6,7 @@ func RegisterRoutes(
 	router *gin.RouterGroup,
 	relationshipHandler *RelationshipHandler,
 	relationshipMemberHandler *RelationshipMemberHandler,
+	invitationHandler *InvitationHandler,
 ) {
 	relationships := router.Group("/relationships")
 
@@ -15,6 +16,10 @@ func RegisterRoutes(
 	relationships.GET("/:relationshipId", relationshipHandler.GetByID)
 	relationships.PATCH("/:relationshipId", relationshipHandler.Update)
 	relationships.DELETE("/:relationshipId", relationshipHandler.Delete)
+	relationships.POST(
+		"/:relationshipID/invitations",
+		invitationHandler.CreateInvitation,
+	)
 
 	// Relationship Members
 	members := relationships.Group("/:relationshipId/members")

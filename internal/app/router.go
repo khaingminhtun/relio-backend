@@ -71,6 +71,7 @@ func NewRouter(deps *Dependencies) *gin.Engine {
 		private,
 		deps.RelationshipHandler,
 		deps.RelatonshipMemberHandler,
+		deps.InvitationHandler,
 	)
 	return router
 }

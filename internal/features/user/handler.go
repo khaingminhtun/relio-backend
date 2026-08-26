@@ -171,3 +171,39 @@ func (h *Handler) DeleteUser(c *gin.Context) {
 
 	response.NoContent(c)
 }
+
+// ============================================================
+// Search
+// ============================================================
+
+// SearchUsers handles:
+//
+// GET /users/search?q=khaing&limit=20
+//
+// Searches users by username.
+func (h *Handler) SearchUsers(c *gin.Context) {
+	query := c.Query("q")
+
+	if query == "" {
+		response.BadRequest(c, "search query is required")
+		return
+	}
+
+	limit, err := httpx.QueryInt(c, "limit", 20)
+	if err != nil {
+		response.BadRequest(c, "invalid limit")
+		return
+	}
+
+	result, err := h.service.SearchUsers(
+		c.Request.Context(),
+		query,
+		limit,
+	)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	response.OK(c, result)
+}

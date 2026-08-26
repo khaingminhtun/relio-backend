@@ -38,6 +38,13 @@ const (
 	RelationshipMemberStatusRemoved  RelationshipMemberStatus = "removed"
 )
 
+type InvitationType string
+
+const (
+	InvitationTypeExternal InvitationType = "external"
+	InvitationTypeInternal InvitationType = "internal"
+)
+
 type InvitationStatus string
 
 const (

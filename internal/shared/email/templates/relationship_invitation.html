@@ -3,9 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Verify Your Email</title>
+    <title>You're Invited to Relio</title>
 
     <style>
         /* -----------------------------
@@ -130,12 +131,12 @@
         }
 
         /* -----------------------------
-           OTP Card
+           Invitation Card
         ----------------------------- */
 
-        .otp-wrapper {
+        .invitation-wrapper {
             margin: 30px 0;
-            padding: 28px 20px;
+            padding: 28px 24px;
 
             text-align: center;
 
@@ -148,8 +149,8 @@
             border-radius: 16px;
         }
 
-        .otp-label {
-            margin: 0 0 12px;
+        .invitation-label {
+            margin: 0 0 10px;
             color: #64748b;
             font-size: 12px;
             font-weight: 700;
@@ -157,22 +158,56 @@
             text-transform: uppercase;
         }
 
-        .otp {
-            margin: 0;
+        .invitation-title {
+            margin: 0 0 12px;
             color: #111827;
-            font-size: 38px;
-            line-height: 1;
-            font-weight: 800;
-            letter-spacing: 10px;
+            font-size: 20px;
+            line-height: 1.4;
+            font-weight: 700;
         }
 
-        .otp-expire {
-            margin: 16px 0 0;
+        .invitation-text {
+            margin: 0 0 24px;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* -----------------------------
+           Button
+        ----------------------------- */
+
+        .button {
+            display: inline-block;
+            padding: 14px 28px;
+
+            background:
+                linear-gradient(135deg,
+                    #4f46e5,
+                    #4338ca);
+
+            color: #ffffff !important;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 8px 20px rgba(79, 70, 229, 0.25);
+        }
+
+        /* -----------------------------
+           Expiration
+        ----------------------------- */
+
+        .expire {
+            margin: 18px 0 0;
             color: #64748b;
             font-size: 13px;
         }
 
-        .otp-expire strong {
+        .expire strong {
             color: #4f46e5;
         }
 
@@ -258,9 +293,8 @@
                 font-size: 21px;
             }
 
-            .otp {
-                font-size: 32px;
-                letter-spacing: 7px;
+            .invitation-title {
+                font-size: 18px;
             }
 
             .footer {
@@ -288,15 +322,15 @@
                             <td class="header">
 
                                 <div class="brand">
-                                    Relio PlatForm
+                                    Relio Platform
                                 </div>
 
                                 <h1 class="header-title">
-                                    Welcome aboard
+                                    You're invited
                                 </h1>
 
                                 <p class="header-subtitle">
-                                    One more step to secure your account.
+                                    Someone wants to connect with you on Relio.
                                 </p>
 
                             </td>
@@ -310,29 +344,39 @@
                             <td class="content">
 
                                 <h2 class="title">
-                                    Verify your email address
+                                    Join them on Relio
                                 </h2>
 
                                 <p class="description">
-                                    Thanks for creating your account.
-                                    To finish your registration, enter the
-                                    verification code below.
+                                    You've received an invitation to join a
+                                    relationship on Relio. Accept the invitation
+                                    to become a member and start sharing memories
+                                    and experiences together.
                                 </p>
 
-                                <!-- OTP -->
+                                <!-- Invitation -->
 
-                                <div class="otp-wrapper">
+                                <div class="invitation-wrapper">
 
-                                    <p class="otp-label">
-                                        Verification Code
+                                    <p class="invitation-label">
+                                        Relationship Invitation
                                     </p>
 
-                                    <p class="otp">
-                                        {{.OTP}}
+                                    <h3 class="invitation-title">
+                                        You've been invited to join
+                                    </h3>
+
+                                    <p class="invitation-text">
+                                        Click the button below to view and accept
+                                        your invitation.
                                     </p>
 
-                                    <p class="otp-expire">
-                                        This code expires in
+                                    <a href="{{.InviteURL}}" class="button" target="_blank" rel="noopener noreferrer">
+                                        Accept Invitation
+                                    </a>
+
+                                    <p class="expire">
+                                        This invitation expires in
                                         <strong>{{.ExpiresIn}}</strong>.
                                     </p>
 
@@ -347,16 +391,17 @@
                                     </p>
 
                                     <p class="security-text">
-                                        Never share this verification code
-                                        with anyone. Our team will never ask
-                                        you for this code.
+                                        If you weren't expecting this invitation,
+                                        you can safely ignore this email.
+                                        Do not forward this invitation link to
+                                        anyone else.
                                     </p>
 
                                 </div>
 
                                 <p class="description" style="margin-top: 24px;">
-                                    If you didn't create this account,
-                                    you can safely ignore this email.
+                                    If the button doesn't work, you can open the
+                                    invitation link from the original email.
                                 </p>
 
                             </td>
@@ -370,7 +415,7 @@
                             <td class="footer">
 
                                 <p class="footer-brand">
-                                    Production API
+                                    Relio Platform
                                 </p>
 
                                 <p class="footer-text">
@@ -379,7 +424,7 @@
                                 </p>
 
                                 <p class="footer-text" style="margin-top: 8px;">
-                                    © 2026 Production API. All rights reserved.
+                                    © 2026 Relio Platform. All rights reserved.
                                 </p>
 
                             </td>

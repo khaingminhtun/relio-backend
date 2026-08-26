@@ -317,6 +317,7 @@ func (s *service) VerifyRegister(
 			profile := &user.UserProfile{
 				UserID:      newUser.ID,
 				DisplayName: newUser.Username,
+				Timezone:    "Asia/Yangon",
 			}
 
 			if err := s.profileRepo.Create(
@@ -435,6 +436,11 @@ func (s *service) Authenticate(
 		)
 	}
 
+	profile, err := s.profileRepo.GetByUserID(ctx, currentUser.ID)
+	if err != nil {
+		return nil, fmt.Errorf("get user profile: %w", err)
+	}
+
 	// ============================================================
 	// Create authentication session
 	// ============================================================
@@ -521,6 +527,16 @@ func (s *service) Authenticate(
 		ExpiresAt: time.Now().Add(
 			s.jwtManager.AccessExpiration(),
 		),
+		User: LoginUserResponse{
+			ID:          currentUser.ID,
+			Email:       currentUser.Email,
+			Username:    currentUser.Username,
+			DisplayName: profile.DisplayName,
+			AvatarURL:   profile.AvatarURL,
+			Role:        string(currentUser.Role),
+			Status:      string(currentUser.Status),
+			Timezone:    profile.Timezone,
+		},
 	}, nil
 }
 
