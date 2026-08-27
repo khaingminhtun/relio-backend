@@ -56,6 +56,14 @@ func NewRouter(deps *Dependencies) *gin.Engine {
 		deps.AuthHandler,
 	)
 
+	// Public routes
+	// ============================================================
+
+	relationship.RegisterPublicRoutes(
+		api,
+		deps.InvitationHandler,
+	)
+
 	// ============================================================
 	// Private routes
 	// ============================================================

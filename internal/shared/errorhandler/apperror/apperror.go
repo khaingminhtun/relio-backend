@@ -29,6 +29,9 @@ const (
 	CodeInvalidAccessToken             Code = "INVALID_ACCESS_TOKEN"
 	CodeInvalidRelationshipMember      Code = "INVALId_RELATIONSHIP_MEMBER"
 	CodeUserProfileNotFound            Code = "USER_PROFILE_NOT_FOUND"
+	CodeInvitationInvalid              Code = "INVALID_INVITATION"
+	CodeInvitationExpired              Code = "INVITATION_EXPIRED"
+	CodeInvitationEmailMismatch        Code = "INVITATION_EMAIL_MISMATCH"
 )
 
 type Error struct {

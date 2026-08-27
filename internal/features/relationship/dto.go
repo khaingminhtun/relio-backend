@@ -55,9 +55,10 @@ type ExternalInvitationRequest struct {
 }
 
 type ExternalInvitationResponse struct {
-	ID             int64     `json:"id"`
-	RelationshipID int64     `json:"relationship_id"`
-	Status         string    `json:"status"`
-	InviteURL      string    `json:"invite_url"`
-	ExpiresAt      time.Time `json:"expires_at"`
+	ID             int64      `json:"id"`
+	RelationshipID int64      `json:"relationship_id"`
+	Status         string     `json:"status"`
+	InviteURL      string     `json:"invite_url"`
+	ExpiresAt      time.Time  `json:"expires_at"`
+	AcceptedAt     *time.Time `json:"accepted_at"`
 }

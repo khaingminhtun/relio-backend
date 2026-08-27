@@ -61,31 +61,46 @@ func FromError(err error) *Error {
 	)
 }
 
-// Clean static lookup map to replace the bulky switch block
 var codeToStatus = map[apperror.Code]int{
-	apperror.CodeUserNotFound:                   http.StatusNotFound,
-	apperror.CodeUserAlreadyExists:              http.StatusConflict,
-	apperror.CodeInvalidCredentials:             http.StatusUnauthorized,
-	apperror.CodeEmailNotVerified:               http.StatusForbidden,
-	apperror.CodeInvalidVerifyCode:              http.StatusBadRequest,
-	apperror.CodeVerifyCodeExpired:              http.StatusBadRequest,
+	// User
+	apperror.CodeUserNotFound:      http.StatusNotFound,
+	apperror.CodeUserAlreadyExists: http.StatusConflict,
+	apperror.CodeUserInactive:      http.StatusForbidden,
+	apperror.CodeAccountInactive:   http.StatusForbidden,
+
+	// Authentication
+	apperror.CodeInvalidCredentials:  http.StatusUnauthorized,
+	apperror.CodeEmailNotVerified:    http.StatusForbidden,
+	apperror.CodeAuthSessionNotFound: http.StatusNotFound,
+	apperror.CodeAuthSessionExpired:  http.StatusUnauthorized,
+	apperror.CodeAuthSessionRevoked:  http.StatusUnauthorized,
+	apperror.CodeUnauthorized:        http.StatusUnauthorized,
+	apperror.CodeInvalidAccessToken:  http.StatusUnauthorized,
+
+	// Verification
+	apperror.CodeInvalidVerifyCode: http.StatusBadRequest,
+	apperror.CodeVerifyCodeExpired: http.StatusBadRequest,
+
+	// Request / Validation
 	apperror.CodeInvalidRequest:                 http.StatusBadRequest,
-	apperror.CodeAuthSessionNotFound:            http.StatusNotFound,
-	apperror.CodeAccountInactive:                http.StatusForbidden,
-	apperror.CodeAuthSessionExpired:             http.StatusUnauthorized,
-	apperror.CodeUserInactive:                   http.StatusForbidden,
-	apperror.CodeAuthSessionRevoked:             http.StatusUnauthorized,
-	apperror.CodeRelationshipNotFound:           http.StatusNotFound,
-	apperror.CodeRelationshipMemberNotFound:     http.StatusNotFound,
-	apperror.CodeInvitationNotFound:             http.StatusNotFound,
-	apperror.CodeInvalidRelationshipName:        http.StatusNotFound,
-	apperror.CodeInvalidTimezone:                http.StatusNotFound,
-	apperror.CodeInvalidRelationshipType:        http.StatusNotFound,
-	apperror.CodeCustomRelationshipTypeRequired: http.StatusNotFound,
-	apperror.CodeUnauthorized:                   http.StatusUnauthorized,
-	apperror.CodeInvalidAccessToken:             http.StatusUnauthorized,
-	apperror.CodeInvalidRelationshipMember:      http.StatusNotFound,
-	apperror.CodeUserProfileNotFound:            http.StatusNotFound,
+	apperror.CodeInvalidRelationshipName:        http.StatusBadRequest,
+	apperror.CodeInvalidTimezone:                http.StatusBadRequest,
+	apperror.CodeInvalidRelationshipType:        http.StatusBadRequest,
+	apperror.CodeCustomRelationshipTypeRequired: http.StatusBadRequest,
+	apperror.CodeInvalidRelationshipMember:      http.StatusBadRequest,
+
+	// Relationship
+	apperror.CodeRelationshipNotFound:       http.StatusNotFound,
+	apperror.CodeRelationshipMemberNotFound: http.StatusNotFound,
+
+	// Profile
+	apperror.CodeUserProfileNotFound: http.StatusNotFound,
+
+	// Invitation
+	apperror.CodeInvitationNotFound:      http.StatusNotFound,
+	apperror.CodeInvitationExpired:       http.StatusGone,
+	apperror.CodeInvitationInvalid:       http.StatusBadRequest,
+	apperror.CodeInvitationEmailMismatch: http.StatusForbidden,
 }
 
 func fromAppError(err *apperror.Error) *Error {

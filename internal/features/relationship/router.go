@@ -29,4 +29,34 @@ func RegisterRoutes(
 	members.GET("/:memberId", relationshipMemberHandler.GetByID)
 	members.PATCH("/:memberId", relationshipMemberHandler.UpdateMember)
 	members.DELETE("/:memberId", relationshipMemberHandler.RemoveMember)
+
+	invitations := router.Group("/invitations")
+
+	invitations.POST(
+		"/:token/accept",
+		invitationHandler.AcceptInvitation,
+	)
+
+	invitations.POST(
+		"/:token/reject",
+		invitationHandler.RejectInvitation,
+	)
+
+	invitations.DELETE(
+		"/:invitationId",
+		invitationHandler.CancelInvitation,
+	)
+
+}
+
+func RegisterPublicRoutes(
+	router *gin.RouterGroup,
+	invitationHandler *InvitationHandler,
+) {
+	invitations := router.Group("/invitations")
+
+	invitations.GET(
+		"/:token",
+		invitationHandler.GetInvitationByToken,
+	)
 }

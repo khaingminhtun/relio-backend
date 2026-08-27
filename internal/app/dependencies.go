@@ -47,7 +47,7 @@ func NewDependencies(db *gorm.DB,
 	relationshipMemberService := relationship.NewRelationshipMemberService(
 		memberRepository,
 	)
-	invitationservice := relationship.NewInvitationService(invitationRepository, emailQueue, appBaseURL)
+	invitationservice := relationship.NewInvitationService(userRepository, invitationRepository, memberRepository, emailQueue, appBaseURL)
 
 	//Handler
 	userHandler := user.NewHandler(userService)

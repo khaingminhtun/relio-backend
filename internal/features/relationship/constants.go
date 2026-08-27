@@ -50,7 +50,7 @@ type InvitationStatus string
 const (
 	InvitationStatusPending  InvitationStatus = "pending"
 	InvitationStatusAccepted InvitationStatus = "accepted"
-	InvitationStatusDeclined InvitationStatus = "declined"
+	InvitationStatusRejected InvitationStatus = "rejected"
 	InvitationStatusExpired  InvitationStatus = "expired"
 	InvitationStatusCanceled InvitationStatus = "canceled"
 )
