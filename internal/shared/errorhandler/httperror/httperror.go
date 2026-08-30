@@ -101,6 +101,13 @@ var codeToStatus = map[apperror.Code]int{
 	apperror.CodeInvitationExpired:       http.StatusGone,
 	apperror.CodeInvitationInvalid:       http.StatusBadRequest,
 	apperror.CodeInvitationEmailMismatch: http.StatusForbidden,
+
+	// Memory
+	apperror.CodeMemoryNotFound:  http.StatusNotFound,
+	apperror.CodeMemoryForbidden: http.StatusForbidden,
+
+	// Note
+	apperror.CodeNoteNotFound: http.StatusNotFound,
 }
 
 func fromAppError(err *apperror.Error) *Error {

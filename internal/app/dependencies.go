@@ -2,6 +2,8 @@ package app
 
 import (
 	"github.com/khaingminhtun/relio-backend/internal/features/auth"
+	"github.com/khaingminhtun/relio-backend/internal/features/memory"
+	"github.com/khaingminhtun/relio-backend/internal/features/note"
 	"github.com/khaingminhtun/relio-backend/internal/features/relationship"
 	"github.com/khaingminhtun/relio-backend/internal/features/user"
 	redisinfra "github.com/khaingminhtun/relio-backend/internal/infrastructure/redis"
@@ -17,6 +19,8 @@ type Dependencies struct {
 	RelationshipHandler      *relationship.RelationshipHandler
 	RelatonshipMemberHandler *relationship.RelationshipMemberHandler
 	InvitationHandler        *relationship.InvitationHandler
+	MemoryHandler            *memory.MemoryHandler
+	NoteHandler              *note.Handler
 
 	JWTManager *security.JWTManager
 }
@@ -38,6 +42,8 @@ func NewDependencies(db *gorm.DB,
 	relationshipRepository := relationship.NewRelationshipRepository(db)
 	memberRepository := relationship.NewRelationshipMemberRepository(db)
 	invitationRepository := relationship.NewInvitationRepository(db)
+	memoryRepository := memory.NewMemoryRepository(db)
+	noteRepository := note.NewRepository(db)
 
 	//Service
 	userService := user.NewService(userRepository)
@@ -48,6 +54,8 @@ func NewDependencies(db *gorm.DB,
 		memberRepository,
 	)
 	invitationservice := relationship.NewInvitationService(userRepository, invitationRepository, memberRepository, emailQueue, appBaseURL)
+	memoryService := memory.NewMemoryService(memoryRepository, memberRepository)
+	noteService := note.NewService(noteRepository)
 
 	//Handler
 	userHandler := user.NewHandler(userService)
@@ -58,6 +66,8 @@ func NewDependencies(db *gorm.DB,
 		relationshipMemberService,
 	)
 	invitationHandler := relationship.NewInvitationHandler(invitationservice)
+	memoryHandler := memory.NewMemoryHandler(memoryService)
+	noteHandler := note.NewHandler(noteService)
 
 	return &Dependencies{
 		UserHandler:              userHandler,
@@ -66,6 +76,8 @@ func NewDependencies(db *gorm.DB,
 		RelationshipHandler:      relationshipHandler,
 		RelatonshipMemberHandler: relationshipMemberHandler,
 		InvitationHandler:        invitationHandler,
+		MemoryHandler:            memoryHandler,
+		NoteHandler:              noteHandler,
 		JWTManager:               jwtManager,
 	}
 }

@@ -32,6 +32,13 @@ const (
 	CodeInvitationInvalid              Code = "INVALID_INVITATION"
 	CodeInvitationExpired              Code = "INVITATION_EXPIRED"
 	CodeInvitationEmailMismatch        Code = "INVITATION_EMAIL_MISMATCH"
+
+	// Memory
+	CodeMemoryNotFound  Code = "MEMORY_NOT_FOUND"
+	CodeMemoryForbidden Code = "MEMORY_FORBIDDEN"
+
+	// Note
+	CodeNoteNotFound Code = "NOTE_NOT_FOUND"
 )
 
 type Error struct {

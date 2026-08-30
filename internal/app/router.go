@@ -4,6 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/khaingminhtun/relio-backend/internal/features/memory"
+	"github.com/khaingminhtun/relio-backend/internal/features/note"
 	"github.com/khaingminhtun/relio-backend/internal/features/relationship"
 	"github.com/khaingminhtun/relio-backend/internal/shared/middleware"
 
@@ -81,5 +83,16 @@ func NewRouter(deps *Dependencies) *gin.Engine {
 		deps.RelatonshipMemberHandler,
 		deps.InvitationHandler,
 	)
+
+	memory.RegisterRoutes(
+		private,
+		deps.MemoryHandler,
+	)
+
+	note.RegisterRoutes(
+		private,
+		deps.NoteHandler,
+	)
+
 	return router
 }
