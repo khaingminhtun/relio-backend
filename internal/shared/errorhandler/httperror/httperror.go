@@ -108,6 +108,10 @@ var codeToStatus = map[apperror.Code]int{
 
 	// Note
 	apperror.CodeNoteNotFound: http.StatusNotFound,
+
+	//sheduler job
+	apperror.CodeJobNotFound:   http.StatusNotFound,
+	apperror.CodeJobNotClaimed: http.StatusConflict,
 }
 
 func fromAppError(err *apperror.Error) *Error {

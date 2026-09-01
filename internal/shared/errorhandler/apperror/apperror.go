@@ -38,7 +38,9 @@ const (
 	CodeMemoryForbidden Code = "MEMORY_FORBIDDEN"
 
 	// Note
-	CodeNoteNotFound Code = "NOTE_NOT_FOUND"
+	CodeNoteNotFound  Code = "NOTE_NOT_FOUND"
+	CodeJobNotFound   Code = "JOB_NOT_FOUND"
+	CodeJobNotClaimed Code = "JOB_NOT_CLAIM"
 )
 
 type Error struct {
